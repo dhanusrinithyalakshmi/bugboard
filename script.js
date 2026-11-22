@@ -66,10 +66,20 @@ card.addEventListener("dragend", () => {
 }
 
 function renderBoard() {
+  const searchText = document.getElementById("search").value.toLowerCase();
+  const priorityFilter = document.getElementById("filter-priority").value;
+
   statuses.forEach((status) => {
     const list = document.getElementById("list-" + status);
     list.innerHTML = "";
-    const items = bugs.filter((bug) => bug.status === status);
+
+    const items = bugs.filter((bug) => {
+      const matchesSearch = bug.title.toLowerCase().includes(searchText);
+      const matchesPriority =
+        priorityFilter === "All" || bug.priority === priorityFilter;
+      return bug.status === status && matchesSearch && matchesPriority;
+    });
+
     document.getElementById("count-" + status).textContent = items.length;
     items.forEach((bug) => list.appendChild(createCard(bug)));
   });
@@ -138,6 +148,8 @@ statuses.forEach((status) => {
     if (bug && bug.status !== status) {
       bug.status = status;
       saveBugs();
+      document.getElementById("search").addEventListener("input", renderBoard);
+      document.getElementById("filter-priority").addEventListener("change", renderBoard);
       renderBoard();
     }
   });

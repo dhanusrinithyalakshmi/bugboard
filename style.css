@@ -173,3 +173,23 @@ header p {
 .column.drag-over {
   background: #d1d5db;
 }
+
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 16px 24px 0;
+}
+
+.filters input,
+.filters select {
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.filters input {
+  flex: 1;
+  min-width: 200px;
+}

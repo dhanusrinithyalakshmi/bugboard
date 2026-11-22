@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BugBoard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🐞 BugBoard</h1>
+    <p>Track bugs from To Do to Fixed</p>
+  </header>
+
+  <form id="bug-form" class="bug-form">
+    <input type="text" id="title" placeholder="Bug title" required>
+    <input type="text" id="description" placeholder="Short description">
+    <select id="priority">
+      <option value="Low">Low</option>
+      <option value="Medium" selected>Medium</option>
+      <option value="High">High</option>
+    </select>
+    <button type="submit">Add Bug</button>
+  </form>
+
+  <main class="board">
+    <section class="column">
+      <h2>To Do <span class="count" id="count-todo">0</span></h2>
+      <div id="list-todo"></div>
+    </section>
+
+    <section class="column">
+      <h2>In Progress <span class="count" id="count-progress">0</span></h2>
+      <div id="list-progress"></div>
+    </section>
+
+    <section class="column">
+      <h2>Fixed <span class="count" id="count-fixed">0</span></h2>
+      <div id="list-fixed"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

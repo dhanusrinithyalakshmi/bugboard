@@ -1,0 +1,175 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f5f7;
+  color: #222;
+}
+
+header {
+  text-align: center;
+  padding: 24px 16px;
+  background: #1f2937;
+  color: white;
+}
+
+header p {
+  margin-top: 6px;
+  color: #cbd5e1;
+}
+
+.board {
+  display: flex;
+  gap: 20px;
+  padding: 24px;
+  align-items: flex-start;
+}
+
+.column {
+  flex: 1;
+  background: #e5e7eb;
+  border-radius: 10px;
+  padding: 14px;
+  min-height: 300px;
+}
+
+.column h2 {
+  font-size: 18px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.count {
+  background: #1f2937;
+  color: white;
+  border-radius: 12px;
+  padding: 2px 10px;
+  font-size: 14px;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-left: 5px solid gray;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.card h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.tag {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  color: white;
+}
+
+.high { border-left-color: #dc2626; }
+.high .tag { background: #dc2626; }
+
+.medium { border-left-color: #f59e0b; }
+.medium .tag { background: #f59e0b; }
+
+.low { border-left-color: #16a34a; }
+.low .tag { background: #16a34a; }
+
+@media (max-width: 700px) {
+  .board {
+    flex-direction: column;
+  }
+  .column {
+    width: 100%;
+  }
+}
+.bug-form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 20px 24px 0;
+}
+
+.bug-form input,
+.bug-form select {
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.bug-form input[type="text"] {
+  flex: 1;
+  min-width: 160px;
+}
+
+.bug-form button {
+  padding: 10px 18px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.bug-form button:hover {
+  background: #1d4ed8;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.date {
+  font-size: 12px;
+  color: #777;
+}
+
+.card-actions button {
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.move-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.card {
+  cursor: grab;
+}
+
+.card.dragging {
+  opacity: 0.5;
+}
+
+.column.drag-over {
+  background: #d1d5db;
+}

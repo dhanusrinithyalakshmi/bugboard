@@ -193,3 +193,16 @@ header p {
   flex: 1;
   min-width: 200px;
 }
+
+.hidden {
+  display: none;
+}
+
+.bug-form #cancel-btn {
+  background: #6b7280;
+}
+
+.edit-btn {
+  background: #f59e0b;
+  color: white;
+}

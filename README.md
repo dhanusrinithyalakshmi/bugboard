@@ -1,31 +1,46 @@
 # 🐞 BugBoard
 
-A Kanban-style bug tracking app where you can add bugs and move them from **To Do** to **In Progress** to **Fixed**.
+A full-stack, Kanban-style bug tracker. Add bugs, then move them from **To Do** to **In Progress** to **Fixed**.
 
-**Live demo:** https://dhanusrinithyalakshmi.github.io/bugboard/
+**Version 1 (frontend only) live demo:** https://dhanusrinithyalakshmi.github.io/bugboard/
 
 ## Features
 
-- Add bugs with a title, description, and priority (Low, Medium, High)
+- Add, edit, and delete bugs with a title, description, and priority (Low, Medium, High)
 - Drag and drop cards between columns
-- Move, edit, and delete bugs
-- Search bugs by title
-- Filter bugs by priority
+- Search by title and filter by priority
 - Live bug count in each column
-- Data saved in the browser with localStorage
-- Responsive layout for mobile
+- Responsive layout
+- Bugs stored permanently in MongoDB through a REST API
 
 ## Tech Stack
 
-- HTML
-- CSS
-- JavaScript (DOM manipulation, localStorage, Drag and Drop API)
+- **Frontend:** HTML, CSS, JavaScript (DOM, Fetch API, Drag and Drop API)
+- **Backend:** Node.js, Express
+- **Database:** MongoDB Atlas with Mongoose
+- **Tools:** Git, GitHub
 
-## How to Run
+## API Routes
 
-1. Clone the repository:
+| Method | Route | Purpose |
+|---|---|---|
+| GET | `/api/bugs` | Get all bugs |
+| POST | `/api/bugs` | Add a bug |
+| PUT | `/api/bugs/:id` | Edit or move a bug |
+| DELETE | `/api/bugs/:id` | Delete a bug |
+
+## How to Run Locally
+
+1. Clone the repository and switch to this branch:
    `git clone https://github.com/dhanusrinithyalakshmi/bugboard.git`
-2. Open the folder and double-click `index.html`
+   `cd bugboard`
+   `git checkout version-2`
+2. Install dependencies: `npm install`
+3. Create a free cluster on MongoDB Atlas and copy its connection string.
+4. Create a `.env` file in the project folder:
+   `MONGODB_URI=your_connection_string_here`
+5. Start the server: `npm start`
+6. Open http://localhost:3000
 
 ## Screenshots
 
@@ -33,13 +48,14 @@ A Kanban-style bug tracking app where you can add bugs and move them from **To D
 
 ## What I Learned
 
-- Working with the DOM and event listeners
-- Managing app state with arrays of objects
-- Saving data with localStorage
-- Using Git and GitHub
+- Building a REST API with Express
+- Connecting a Node.js app to MongoDB with Mongoose
+- Keeping secrets out of GitHub with environment variables
+- Moving a frontend from localStorage to a server and database
+- Debugging with the browser console and terminal logs
 
 ## Future Improvements
 
-- Backend with Node.js and a database
-- User login
+- User login and bug assignment
 - Comments on each bug
+- Deploying the full app online

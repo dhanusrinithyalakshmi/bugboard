@@ -1,5 +1,5 @@
 const statuses = ["todo", "progress", "fixed"];
-let bugs = JSON.parse(localStorage.getItem("bugs")) || [];
+let bugs = [];
 
 const form = document.getElementById("bug-form");
 const searchInput = document.getElementById("search");
@@ -8,8 +8,14 @@ let editingId = null;
 const submitBtn = document.getElementById("submit-btn");
 const cancelBtn = document.getElementById("cancel-btn");
 
-function saveBugs() {
-  localStorage.setItem("bugs", JSON.stringify(bugs));
+async function loadBugs() {
+  try {
+    const res = await fetch("/api/bugs");
+    bugs = await res.json();
+    renderBoard();
+  } catch (err) {
+    console.error("Could not load bugs:", err);
+  }
 }
 
 function createCard(bug) {
@@ -97,33 +103,41 @@ function renderBoard() {
   });
 }
 
-function addBug(title, description, priority) {
-  bugs.push({
-    id: Date.now(),
-    title: title,
-    description: description,
-    priority: priority,
-    status: "todo",
-    date: new Date().toLocaleDateString()
+async function addBug(title, description, priority) {
+  const res = await fetch("/api/bugs", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title, description, priority })
   });
-  saveBugs();
+  const newBug = await res.json();
+  bugs.push(newBug);
   renderBoard();
 }
 
-function moveBug(id) {
+async function updateBugOnServer(id, changes) {
+  const res = await fetch("/api/bugs/" + id, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(changes)
+  });
+  const updated = await res.json();
+  const index = bugs.findIndex((b) => b.id === id);
+  bugs[index] = updated;
+  renderBoard();
+}
+
+async function moveBug(id) {
   const bug = bugs.find((b) => b.id === id);
   const next = statuses.indexOf(bug.status) + 1;
   if (next < statuses.length) {
-    bug.status = statuses[next];
-    saveBugs();
-    renderBoard();
+    await updateBugOnServer(id, { status: statuses[next] });
   }
 }
 
-function deleteBug(id) {
+async function deleteBug(id) {
   if (editingId === id) resetForm();
+  await fetch("/api/bugs/" + id, { method: "DELETE" });
   bugs = bugs.filter((b) => b.id !== id);
-  saveBugs();
   renderBoard();
 }
 
@@ -146,16 +160,7 @@ function resetForm() {
   cancelBtn.classList.add("hidden");
 }
 
-function updateBug(id, title, description, priority) {
-  const bug = bugs.find((b) => b.id === id);
-  bug.title = title;
-  bug.description = description;
-  bug.priority = priority;
-  saveBugs();
-  renderBoard();
-}
-
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const title = document.getElementById("title").value.trim();
   const description = document.getElementById("description").value.trim();
@@ -164,9 +169,9 @@ form.addEventListener("submit", (e) => {
   if (title === "") return;
 
   if (editingId !== null) {
-    updateBug(editingId, title, description, priority);
+    await updateBugOnServer(editingId, { title, description, priority });
   } else {
-    addBug(title, description, priority);
+    await addBug(title, description, priority);
   }
   resetForm();
 });
@@ -187,17 +192,15 @@ statuses.forEach((status) => {
     column.classList.remove("drag-over");
   });
 
-  column.addEventListener("drop", (e) => {
+  column.addEventListener("drop", async (e) => {
     e.preventDefault();
     column.classList.remove("drag-over");
-    const id = Number(e.dataTransfer.getData("text/plain"));
+   const id = e.dataTransfer.getData("text/plain");
     const bug = bugs.find((b) => b.id === id);
     if (bug && bug.status !== status) {
-      bug.status = status;
-      saveBugs();
-      renderBoard();
+      await updateBugOnServer(id, { status });
     }
   });
 });
 
-renderBoard();
+loadBugs();
